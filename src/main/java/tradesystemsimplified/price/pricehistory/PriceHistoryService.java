@@ -1,5 +1,6 @@
 package tradesystemsimplified.price.pricehistory;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tradesystemsimplified.buyer.Buyer;
@@ -11,14 +12,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class PriceHistoryService {
 
     private PriceHistoryDao priceHistoryDao;
 
-    public PriceHistoryService(PriceHistoryDao priceHistoryDao) {
-        this.priceHistoryDao = priceHistoryDao;
-    }
 
     @Transactional
     public PriceHistory createPriceHistory(Buyer buyer, Supplier supplier, Product product, BigDecimal price) {

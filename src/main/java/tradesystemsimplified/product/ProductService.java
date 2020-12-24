@@ -1,18 +1,15 @@
 package tradesystemsimplified.product;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ProductService {
 
     private ProductDao productDao;
-
-
-    public ProductService(ProductDao productDao) {
-        this.productDao = productDao;
-    }
 
 
     @Transactional

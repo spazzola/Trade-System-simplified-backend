@@ -1,7 +1,10 @@
 package tradesystemsimplified.supplier;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tradesystemsimplified.price.Price;
+import tradesystemsimplified.price.PriceDao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class SupplierService {
 
@@ -16,14 +20,6 @@ public class SupplierService {
     private final InvoiceDao invoiceDao;
     private final PriceDao priceDao;
     private final OrderDao orderDao;
-
-
-    public SupplierService(SupplierDao supplierDao, InvoiceDao invoiceDao, PriceDao priceDao, OrderDao orderDao) {
-        this.supplierDao = supplierDao;
-        this.invoiceDao = invoiceDao;
-        this.priceDao = priceDao;
-        this.orderDao = orderDao;
-    }
 
 
     @Transactional

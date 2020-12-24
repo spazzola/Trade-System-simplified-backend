@@ -1,6 +1,7 @@
 package tradesystemsimplified.buyer;
 
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,9 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import tradesystemsimplified.price.PriceMapper;
+
 import java.util.List;
 
 @Log4j2
+@AllArgsConstructor
 @RestController
 @RequestMapping("/buyer")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -27,20 +31,6 @@ public class BuyerController {
 
     private Logger logger = LogManager.getLogger(BuyerController.class);
 
-
-    public BuyerController(BuyerService buyerService, BuyerMapper buyerMapper,
-                           PriceMapper priceMapper, OrderService orderService,
-                           OrderMapper orderMapper, InvoiceService invoiceService,
-                           InvoiceMapper invoiceMapper, RoleSecurity roleSecurity) {
-        this.buyerService = buyerService;
-        this.buyerMapper = buyerMapper;
-        this.priceMapper = priceMapper;
-        this.orderService = orderService;
-        this.orderMapper = orderMapper;
-        this.invoiceService = invoiceService;
-        this.invoiceMapper = invoiceMapper;
-        this.roleSecurity = roleSecurity;
-    }
 
     @PostMapping("/create")
     public BuyerDto createBuyer(@RequestBody BuyerDto buyerDto) {

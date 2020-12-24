@@ -1,12 +1,15 @@
 package tradesystemsimplified.buyer;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tradesystemsimplified.price.PriceDao;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+@AllArgsConstructor
 @Service
 public class BuyerService {
 
@@ -15,15 +18,6 @@ public class BuyerService {
     private PriceDao priceDao;
     private OrderService orderService;
     private OrderDao orderDao;
-
-    public BuyerService(InvoiceDao invoiceDao, BuyerDao buyerDao,
-                        PriceDao priceDao, OrderService orderService, OrderDao orderDao) {
-        this.invoiceDao = invoiceDao;
-        this.buyerDao = buyerDao;
-        this.priceDao = priceDao;
-        this.orderService = orderService;
-        this.orderDao = orderDao;
-    }
 
 
     @Transactional

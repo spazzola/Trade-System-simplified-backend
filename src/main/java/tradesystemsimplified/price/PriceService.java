@@ -1,5 +1,6 @@
 package tradesystemsimplified.price;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tradesystemsimplified.buyer.Buyer;
@@ -12,17 +13,12 @@ import tradesystemsimplified.supplier.SupplierDto;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class PriceService {
 
     private PriceDao priceDao;
     private ProductDao productDao;
-
-
-    public PriceService(PriceDao priceDao, ProductDao productDao) {
-        this.priceDao = priceDao;
-        this.productDao = productDao;
-    }
 
 
     @Transactional

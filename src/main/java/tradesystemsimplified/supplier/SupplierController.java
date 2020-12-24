@@ -1,5 +1,6 @@
 package tradesystemsimplified.supplier;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Log4j2
 @RestController
 @RequestMapping("/supplier")
@@ -26,21 +28,6 @@ public class SupplierController {
     private RoleSecurity roleSecurity;
 
     private Logger logger = LogManager.getLogger(SupplierController.class);
-
-
-    public SupplierController(SupplierService supplierService, SupplierMapper supplierMapper,
-                              PriceMapper priceMapper, OrderService orderService,
-                              OrderMapper orderMapper, InvoiceService invoiceService,
-                              InvoiceMapper invoiceMapper, RoleSecurity roleSecurity) {
-        this.supplierService = supplierService;
-        this.supplierMapper = supplierMapper;
-        this.priceMapper = priceMapper;
-        this.orderService = orderService;
-        this.orderMapper = orderMapper;
-        this.invoiceService = invoiceService;
-        this.invoiceMapper = invoiceMapper;
-        this.roleSecurity = roleSecurity;
-    }
 
 
     @PostMapping("/create")

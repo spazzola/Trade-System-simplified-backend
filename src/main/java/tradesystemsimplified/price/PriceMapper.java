@@ -1,6 +1,7 @@
 package tradesystemsimplified.price;
 
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import tradesystemsimplified.buyer.Buyer;
 import tradesystemsimplified.buyer.BuyerDto;
@@ -15,19 +16,13 @@ import tradesystemsimplified.supplier.SupplierMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Component
 public class PriceMapper {
 
     private BuyerMapper buyerMapper;
     private SupplierMapper supplierMapper;
     private ProductMapper productMapper;
-
-
-    public PriceMapper(BuyerMapper buyerMapper, SupplierMapper supplierMapper, ProductMapper productMapper) {
-        this.buyerMapper = buyerMapper;
-        this.supplierMapper = supplierMapper;
-        this.productMapper = productMapper;
-    }
 
 
     public PriceDto toDto(Price price) {

@@ -1,5 +1,6 @@
 package tradesystemsimplified.price;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@AllArgsConstructor
 @Log4j2
 @RestController
 @RequestMapping("/price")
@@ -24,15 +26,6 @@ public class PriceController {
 
     private Logger logger = LogManager.getLogger(PriceController.class);
 
-
-    public PriceController(PriceService priceService, PriceMapper priceMapper, PriceDao priceDao,
-                           PriceHistoryService priceHistoryService, RoleSecurity roleSecurity) {
-        this.priceService = priceService;
-        this.priceMapper = priceMapper;
-        this.priceDao = priceDao;
-        this.priceHistoryService = priceHistoryService;
-        this.roleSecurity = roleSecurity;
-    }
 
     @PostMapping("/createBuyerPrice")
     public PriceDto createBuyerPrice(@RequestBody PriceDto priceDto) {

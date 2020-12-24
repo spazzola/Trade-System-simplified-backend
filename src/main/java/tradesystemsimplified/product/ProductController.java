@@ -1,5 +1,6 @@
 package tradesystemsimplified.product;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Log4j2
 @RestController
 @RequestMapping("/product")
@@ -20,13 +22,6 @@ public class ProductController {
     private RoleSecurity roleSecurity;
 
     private Logger logger = LogManager.getLogger(ProductController.class);
-
-
-    public ProductController(ProductService productService, ProductMapper productMapper, RoleSecurity roleSecurity) {
-        this.productService = productService;
-        this.productMapper = productMapper;
-        this.roleSecurity = roleSecurity;
-    }
 
 
     @PostMapping("/create")
