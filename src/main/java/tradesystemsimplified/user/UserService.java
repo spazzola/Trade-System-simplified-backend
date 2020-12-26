@@ -1,6 +1,6 @@
 package tradesystemsimplified.user;
 
-import com.tradesystem.validation.EmailValidation;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,21 +8,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class UserService {
 
-   private UserDao userDao;
-   private EmailValidation emailValidation;
-   private PasswordEncoder passwordEncoder;
+    private UserDao userDao;
+    private EmailValidation emailValidation;
+    private PasswordEncoder passwordEncoder;
 
-   @Autowired
-   private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-    public UserService(UserDao userDao, EmailValidation emailValidation, PasswordEncoder passwordEncoder) {
-        this.userDao = userDao;
-        this.emailValidation = emailValidation;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Transactional
     public User registerUser(UserDto userDto) {
@@ -31,11 +27,11 @@ public class UserService {
         }
         final String encryptedPassword = passwordEncoder.encode(userDto.getPassword());
         final User user = User.builder()
-                    .login(userDto.getLogin())
-                    .password(encryptedPassword)
-                    .email(userDto.getEmail())
-                    .role(userDto.getRole())
-                    .build();
+                .login(userDto.getLogin())
+                .password(encryptedPassword)
+                .email(userDto.getEmail())
+                .role(userDto.getRole())
+                .build();
 
         return userDao.save(user);
     }

@@ -7,4 +7,5 @@ public class AuthenticationRequest {
 
     private String login;
     private String password;
+
 }
