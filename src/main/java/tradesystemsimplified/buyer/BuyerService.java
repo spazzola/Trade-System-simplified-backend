@@ -3,6 +3,11 @@ package tradesystemsimplified.buyer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tradesystemsimplified.invoice.InvoiceDao;
+import tradesystemsimplified.order.Order;
+import tradesystemsimplified.order.OrderDao;
+import tradesystemsimplified.order.OrderService;
+import tradesystemsimplified.price.Price;
 import tradesystemsimplified.price.PriceDao;
 
 import java.math.BigDecimal;
@@ -36,10 +41,10 @@ public class BuyerService {
     public List<Buyer> calculateAndSetBalances() {
         List<Buyer> buyers = buyerDao.findAll();
 
-        for (Buyer buyer : buyers) {
+        /*for (Buyer buyer : buyers) {
             BigDecimal currentBalance = calculateCurrentBalance(buyer);
             buyer.setCurrentBalance(currentBalance);
-        }
+        }*/
 
         return buyers;
     }
@@ -85,6 +90,7 @@ public class BuyerService {
             buyer.setAverageProfitPerM3(profitPerM3);
             resultList.add(buyer);
         }
+
         return resultList;
     }
 
@@ -113,7 +119,7 @@ public class BuyerService {
         return buyers;
     }
 
-    private BigDecimal calculateCurrentBalance(Buyer buyer) {
+    /*private BigDecimal calculateCurrentBalance(Buyer buyer) {
         List<Invoice> notUsedInvoices = invoiceDao.getBuyerNotUsedInvoices(buyer.getId());
 
         BigDecimal balance = BigDecimal.valueOf(0);
@@ -137,7 +143,7 @@ public class BuyerService {
             }
         }
         return balance;
-    }
+    }*/
 
     private boolean validateBuyer(BuyerDto buyerDto) {
         if (buyerDto.getName() == null || buyerDto.getName().equals("")) {

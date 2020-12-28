@@ -2,6 +2,8 @@ package tradesystemsimplified.buyer;
 
 import java.util.List;
 import lombok.*;
+import tradesystemsimplified.invoice.Invoice;
+import tradesystemsimplified.order.Order;
 import tradesystemsimplified.price.Price;
 import tradesystemsimplified.price.pricehistory.PriceHistory;
 
@@ -59,4 +61,3 @@ public class Buyer {
     }
 
 }
-
