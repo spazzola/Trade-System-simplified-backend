@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tradesystemsimplified.invoice.Invoice;
+import tradesystemsimplified.order.Order;
+import tradesystemsimplified.price.Price;
+import tradesystemsimplified.price.pricehistory.PriceHistory;
 
 import javax.persistence.*;
 
@@ -45,4 +49,3 @@ public class Supplier {
     private List<PriceHistory> priceHistories;
 
 }
-

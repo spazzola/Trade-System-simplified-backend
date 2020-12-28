@@ -3,6 +3,10 @@ package tradesystemsimplified.supplier;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tradesystemsimplified.invoice.Invoice;
+import tradesystemsimplified.invoice.InvoiceDao;
+import tradesystemsimplified.order.Order;
+import tradesystemsimplified.order.OrderDao;
 import tradesystemsimplified.price.Price;
 import tradesystemsimplified.price.PriceDao;
 
@@ -103,7 +107,7 @@ public class SupplierService {
 
     private Supplier setCurrentBalance(Supplier supplier) {
 
-        List<Invoice> notUsedInvoices = invoiceDao.getSupplierNotUsedInvoices(supplier.getId());
+       /* List<Invoice> notUsedInvoices = invoiceDao.getSupplierNotUsedInvoices(supplier.getId());
 
         BigDecimal balance = BigDecimal.valueOf(0);
 
@@ -116,7 +120,7 @@ public class SupplierService {
             balance = balance.add(negativeInvoice.get().getAmountToUse());
         }
 
-        supplier.setCurrentBalance(balance);
+        supplier.setCurrentBalance(balance);*/
 
         return supplier;
     }
