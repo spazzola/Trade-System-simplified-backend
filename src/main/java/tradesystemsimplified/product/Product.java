@@ -1,6 +1,8 @@
 package tradesystemsimplified.product;
 
 import lombok.*;
+import tradesystemsimplified.price.Price;
+import tradesystemsimplified.price.pricehistory.PriceHistory;
 
 import java.util.List;
 import javax.persistence.*;

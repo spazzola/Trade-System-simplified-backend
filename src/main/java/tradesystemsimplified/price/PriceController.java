@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import tradesystemsimplified.price.pricehistory.PriceHistoryService;
+import tradesystemsimplified.user.RoleSecurity;
 
 import java.math.BigDecimal;
 import java.util.List;
