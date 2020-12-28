@@ -93,63 +93,6 @@ public class InvoiceService {
 
         recalculateBalances(invoice, invoice.getBuyer(), invoice.getSupplier());
     }
-/*
-    //TODO need to change method body-logic
-    @Transactional
-    public BigDecimal getBuyersPositiveBalance() {
-        Optional<List <Invoice>> optionalInvoices = invoiceDao.getBuyersPaidNotUsedPositiveInvoices();
-        BigDecimal result = BigDecimal.valueOf(0);
-
-        if (optionalInvoices.isPresent()) {
-            for (Invoice invoice : optionalInvoices.get()) {
-                result = result.add(invoice.getAmountToUse());
-            }
-        }
-        return result;
-    }
-
-    //TODO need to change method body-logic
-    @Transactional
-    public BigDecimal getBuyersNegativeBalance() {
-        BigDecimal result = BigDecimal.valueOf(0);
-
-        List<Buyer> buyers = buyerDao.findAll();
-        for (Buyer buyer : buyers) {
-            if (buyer.getCurrentBalance().compareTo(BigDecimal.ZERO) < 0) {
-                result = result.add(buyer.getCurrentBalance());
-            }
-        }
-        return result;
-    }
-
-    //TODO need to change method body-logic
-    @Transactional
-    public BigDecimal getSuppliersPositiveBalance() {
-        Optional<List <Invoice>> optionalInvoices = invoiceDao.getSuppliersPaidNotUsedPositiveInvoices();
-        BigDecimal result = BigDecimal.valueOf(0);
-
-        if (optionalInvoices.isPresent()) {
-            for (Invoice invoice : optionalInvoices.get()) {
-                result = result.add(invoice.getAmountToUse());
-            }
-        }
-        return result;
-    }
-
-    //TODO need to change method body-logic
-    @Transactional
-    public BigDecimal getSuppliersNegativeBalance() {
-        Optional<List <Invoice>> optionalInvoices = invoiceDao.getSuppliersPaidNotUsedNegativeInvoices();
-        BigDecimal result = BigDecimal.valueOf(0);
-
-        if (optionalInvoices.isPresent()) {
-            for (Invoice invoice : optionalInvoices.get()) {
-                result = result.add(invoice.getAmountToUse());
-            }
-        }
-        return result;
-    }
-*/
 
     @Transactional
     public List<Invoice> getBuyerMonthInvoices(Long buyerId, int month, int year) {
@@ -174,17 +117,23 @@ public class InvoiceService {
     private void recalculateBalances(Invoice invoice, Buyer buyer, Supplier supplier) {
         if (invoice.isPaid()) {
             if (buyer != null) {
-                //process adding invoice value to buyer balance
-                BigDecimal currentBalance = buyer.getCurrentBalance();
-                BigDecimal newBalance = currentBalance.add(invoice.getValue());
-                buyer.setCurrentBalance(newBalance);
+                recalculateBuyerBalance(invoice, buyer);
             } else {
-                //process adding invoice value to supplier balance
-                BigDecimal currentBalance = supplier.getCurrentBalance();
-                BigDecimal newBalance = currentBalance.add(invoice.getValue());
-                supplier.setCurrentBalance(newBalance);
+                recalculateSupplierBalance(invoice, supplier);
             }
         }
+    }
+
+    private void recalculateBuyerBalance(Invoice invoice, Buyer buyer) {
+        BigDecimal currentBalance = buyer.getCurrentBalance();
+        BigDecimal newBalance = currentBalance.add(invoice.getValue());
+        buyer.setCurrentBalance(newBalance);
+    }
+
+    private void recalculateSupplierBalance(Invoice invoice, Supplier supplier) {
+        BigDecimal currentBalance = supplier.getCurrentBalance();
+        BigDecimal newBalance = currentBalance.add(invoice.getValue());
+        supplier.setCurrentBalance(newBalance);
     }
 
     private boolean validateInvoice(InvoiceDto invoiceDto) {
