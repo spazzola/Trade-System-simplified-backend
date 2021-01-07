@@ -49,7 +49,7 @@ public class OrderDetailsService {
         }
 
         payForBuyerOrder(orderDetails, buyerSum);
-        payForSupplierOrder(orderDetails, buyerSum);
+        payForSupplierOrder(orderDetails, supplierSum);
     }
 
     @Transactional

@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -121,6 +122,7 @@ public class UpdateOrderDetailsService {
     }
 
     private void processDeletingOrder(OrderDetails orderDetails) {
+        deletePayment(orderDetails);
         deleteBuyerInvoice(orderDetails);
 
         returnMoneyToBuyer(orderDetails);
@@ -128,6 +130,11 @@ public class UpdateOrderDetailsService {
 
         orderDetailsDao.delete(orderDetails);
         orderDao.delete(orderDetails.getOrder());
+    }
+
+    private void deletePayment(OrderDetails orderDetails) {
+        Optional<Payment> payment = paymentDao.findBuyerPayment(orderDetails.getId());
+        payment.ifPresent(payment1 -> paymentDao.delete(payment1));
     }
 
     private void deleteBuyerInvoice(OrderDetails orderDetails) {
@@ -154,12 +161,12 @@ public class UpdateOrderDetailsService {
     }
 
     private void updateBuyerOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest, OrderDetails orderDetails) {
+        updateBuyerBalance(updateOrderDetailsRequest, orderDetails);
+
         BigDecimal newBuyerSum = updateOrderDetailsRequest.getNewBuyerPrice().multiply(updateOrderDetailsRequest.getNewQuantity());
         orderDetails.setBuyerSum(newBuyerSum);
         orderDetails.setQuantity(updateOrderDetailsRequest.getNewQuantity());
         orderDetailsDao.save(orderDetails);
-
-        updateBuyerBalance(updateOrderDetailsRequest, orderDetails);
     }
 
     private void updateBuyerBalance(UpdateOrderDetailsRequest updateOrderDetailsRequest, OrderDetails orderDetails) {
@@ -169,11 +176,14 @@ public class UpdateOrderDetailsService {
         Buyer buyer = orderDetails.getOrder().getBuyer();
         BigDecimal currentBalance = buyer.getCurrentBalance();
 
-        if (difference.compareTo(BigDecimal.ZERO) < 0) {
-            currentBalance = currentBalance.subtract(difference);
-        }
-        if (difference.compareTo(BigDecimal.ZERO) > 0) {
+        if (newBuyerSum.compareTo(oldBuyerSum) < 0  && difference.compareTo(BigDecimal.ZERO) > 0) {
             currentBalance = currentBalance.add(difference);
+        }
+        else if (newBuyerSum.compareTo(oldBuyerSum) > 0  && difference.compareTo(BigDecimal.ZERO) < 0) {
+            currentBalance = currentBalance.add(difference);
+        }
+        else {
+            currentBalance = currentBalance.subtract(difference);
         }
 
         buyer.setCurrentBalance(currentBalance);
@@ -189,21 +199,21 @@ public class UpdateOrderDetailsService {
         BigDecimal currentValue = invoice.getValue();
 
         if (difference.compareTo(BigDecimal.ZERO) < 0) {
-            currentValue = currentValue.subtract(difference);
+            currentValue = currentValue.add(difference);
         }
         if (difference.compareTo(BigDecimal.ZERO) > 0) {
-            currentValue = currentValue.add(difference);
+            currentValue = currentValue.subtract(difference);
         }
         invoice.setValue(currentValue);
         invoiceDao.save(invoice);
     }
 
     private void updateSupplierOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest, OrderDetails orderDetails) {
+        updateSupplierBalance(updateOrderDetailsRequest, orderDetails);
+
         BigDecimal newSupplierSum = updateOrderDetailsRequest.getNewSupplierPrice().multiply(updateOrderDetailsRequest.getNewQuantity());
         orderDetails.setSupplierSum(newSupplierSum);
         orderDetailsDao.save(orderDetails);
-
-        updateSupplierBalance(updateOrderDetailsRequest, orderDetails);
     }
 
     private void updateSupplierBalance(UpdateOrderDetailsRequest updateOrderDetailsRequest, OrderDetails orderDetails) {
@@ -213,11 +223,14 @@ public class UpdateOrderDetailsService {
         Supplier supplier = orderDetails.getOrder().getSupplier();
         BigDecimal currentBalance = supplier.getCurrentBalance();
 
-        if (difference.compareTo(BigDecimal.ZERO) < 0) {
-            currentBalance = currentBalance.subtract(difference);
-        }
-        if (difference.compareTo(BigDecimal.ZERO) > 0) {
+        if (newSupplierSum.compareTo(oldSupplierSum) < 0  && difference.compareTo(BigDecimal.ZERO) > 0) {
             currentBalance = currentBalance.add(difference);
+        }
+        else if (newSupplierSum.compareTo(oldSupplierSum) > 0  && difference.compareTo(BigDecimal.ZERO) < 0) {
+            currentBalance = currentBalance.add(difference);
+        }
+        else {
+            currentBalance = currentBalance.subtract(difference);
         }
 
         supplier.setCurrentBalance(currentBalance);
